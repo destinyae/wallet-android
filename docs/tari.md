@@ -1,29 +1,29 @@
 [//]: # (TODO remove or update this file)
 
 # Build system
-Expect standart android system we have script `downloadLibwallet` which downloading ffi side from github release page to local. It will appear in `libwallet` folder. It downloading `wallet.h` and `libminotari_wallet_ffi.a` for each architecture.
+Expect the standard Android system we have the script `downloadLibwallet` which downloads ffi side from github release page to local. It will appear in `libwallet` folder. It downloads `wallet.h` and `libminotari_wallet_ffi.a` for each architecture.
 If you want to test some local build you should turn off this download and put files manually
 
-versionNumber is version of our app. It should be aligned with iOS version
-buildNumber is build version, it should be incremented manually before the release
-libwalletVersion is ffi version. It should be updated after ffi update and have release on tari github page
+versionNumber is a version of our app. It should be aligned with iOS version
+buildNumber is the build version, it should be incremented manually before the release
+libwalletVersion is ffi version. It should be updated after ffi update and be released on tari github page
 
 
 
 
 
 # FFI integration
-FFI written in Rust and built for android for diffrent architectures. We supported only arm64-v8a and x86_64 which is actual devices. Emulator has a diffrent and we stopped maintain it during 2023 year.
-FFI lib files should be placed in right folder with rigth names. Now it's
+FFI is written in Rust and built for Android for different architectures. We supported only arm64-v8a and x86_64 which are actual devices. Emulator has a different and we stopped maintaining it during the year 2023.
+FFI lib files should be placed in the right folder with the right names. Now it's
 libwallet/wallet.h
 libwallet/arm64-v8a/libminotari_wallet_ffi.a
 libwallet/x86_64/libminotari_wallet_ffi.a
 Cmake files which build it very strict about it
-Also for right functuoning it should contains
+Also for the right functioning, it should contain
 * `libcrypto.a` - ssl
 * libsqlite3.a - sqlLite
 * libssl.a - ssl
-If you need to update it then ssl located here:
+If you need to update it then ssl is located here:
 https://github.com/217heidai/openssl_for_android/releases
 
 
@@ -31,20 +31,20 @@ https://github.com/217heidai/openssl_for_android/releases
 
 
 # FFI Wrapper
-We have 2 wrappers, in C++ and in kotlin
+We have 2 wrappers, in C++ and kotlin
 For C++ you should go to `\app\src\main\cpp`
-It has CMake file which is responsible for C++ build. If you adding new cpp file you should include it to build list in this file
-C++ files contains code for method injection from native code which descirbed in `wallet.h`
+It has CMake file which is responsible for C++ build. If you add a new cpp file you should include it to the build list in this file
+C++ files contain code for method injection from native code which is described in `wallet.h`
 You should name methods like this
 `Java_com_tari_android_wallet_ffi_FFIContacts_jniGetLength`
-whele `Java_com_tari_android_wallet_ffi` is path, `FFIContacts` is kotlin wrapper file and `jniGetLength` experted method.
+where `Java_com_tari_android_wallet_ffi` is path, `FFIContacts` is kotlin wrapper file, and `jniGetLength` expected method.
 Inside methods you should use methods from `wallet.h`
-jniCommon.cpp contains utils method for enligth work with C++
+jniCommon.cpp contains utils method for enlight work with C++
 
-kotlin wrappers have `FFI` prefix. They should only contains logic related to wrapping entities and methods
+kotlin wrappers have `FFI` prefix. They should only contain logic related to wrapping entities and methods
 `private external fun jniGetBalance(libError: FFIError): FFIPointer`
-This is example of external method which connected to method in C++ wrapper
-All FFI entities have pointer to C++ entity which is located in FFIBase
+This is an example of an external method which connected to the method in C++ wrapper
+All FFI entities have a pointer to C++ entity which is located in FFIBase
 
 
 
@@ -59,11 +59,11 @@ https://yat.fyi/ - sandbox
 https://y.at/ - prod
 https://github.com/yat-labs/yat-lib-android - yat lib
 https://jitpack.io/#yat-labs/yat-lib-android - yat build
-But last build was included manually because jitpack wont build for android 14. Needed to fix
-In project for all interracition with Yat responsible `YatAdapter`
+But the last build was included manually because Jitpack won't build for Android 14. Needed to fix
+In a project for all interactions with Yat responsible `YatAdapter`
 We have those features:
 * Connecting existing Yat
-* Showing connected Yat in wallet frament
+* Showing connected Yat in wallet frame
 * Searching wallet address by Yat via Yat lib 
 
 
